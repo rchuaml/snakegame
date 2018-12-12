@@ -308,7 +308,9 @@ var movement = function(){
 
 
 //Movement
-generateFood();
-movement();
-document.addEventListener("keydown", changeDirection);
 
+window.onload = function(){
+    generateFood();
+    movement();
+    document.addEventListener("keydown", changeDirection);
+}
