@@ -1,5 +1,6 @@
 gameBoard = document.querySelector("#gameCanvas");
 
+//images
 var img = new Image();
 img.src = "image/grass.png";
 
@@ -24,6 +25,13 @@ snakebody.src = "image/snakebody.png";
 var pokeball = new Image();
 pokeball.src = "image/pokeball.png"
 
+var seconds = 10;
+
+//access Powerup Through dom
+var powerlog = document.querySelector("h2");
+
+var ticker;
+
 var interval;
 
 var snakeHeadSize = 30;
@@ -39,7 +47,10 @@ var dy = 0;
 var score = 0;
 
 //access score through dom
-scoreLog= document.querySelector("h1");
+var scoreLog= document.querySelector("h1");
+
+// //access Powerup Through dom
+// var powerlog = document.querySelector("h2")
 
 //coordinates of the food
 var mouseX = 0;
@@ -66,6 +77,7 @@ var head = {
     y: snake[0].y + dy
 };
 
+//Functions
 var clearCanvas = function(){
 
     context.lineWidth = 3;
@@ -100,6 +112,30 @@ var drawSnake = function(){
     }
 }
 
+var shorten = function(){
+    var random = Math.random();
+    if(random<0.333){
+        powerlog.innerHTML = "Power Up!<br>Length shorten by 1<br>"
+        snake.pop();
+        setTimeout(function(){powerlog.innerHTML = "";}
+            , 3000);
+    }else if(random>0.666){
+        powerlog.innerHTML = "Power Up!<br>Length shorten by 2<br>"
+        snake.pop();
+        snake.pop();
+        setTimeout(function(){powerlog.innerHTML = "";}
+            ,3000);
+
+    }else{
+        powerlog.innerHTML = "Power Up!<br>Length shorten by 3<br>"
+        snake.pop();
+        snake.pop();
+        snake.pop();
+        setTimeout(function(){powerlog.innerHTML = "";}
+            ,3000);
+
+    }
+}
 
 
 var moveSnake = function(){
@@ -108,22 +144,25 @@ var moveSnake = function(){
     };
     snake.unshift(head);
     if(head.x==runeX&&head.y == runeY){
-        runeX = -100;
-        runeY = -100;
-        clearInterval(interval);
-        speed = 200;
-        movement();
-        setTimeout(function(){
+        var random = Math.random();
+        if(random <=0.5){
+            runeX = -100;
+            runeY = -100;
             clearInterval(interval);
-            speed = 130;
+            speed = 220;
             movement();
-        }, 10000);
+            tickRune();
+        }else{
+            runeX = -100;
+            runeY = -100;
+            shorten();
+        }
     }
 
     if(head.x==mouseX&&head.y == mouseY){
         score++;
         scoreLog.innerHTML = "Score: " + score;
-        if(score%7===0){
+        if(score%5===0){
             spawnRune();
             drawRune();
         }
@@ -190,14 +229,24 @@ var spawnRune = function(){
     runeY = Math.floor(Math.random()*20)*30;
     //to ensure that the food does not land in the snake
     for(var i = 0; i < snake.length ;i++){
-        //if the coordinates of the food lands in the snake coordinates restart generate food
-        if(runeX === snake[i].x){
+        //if the coordinates of the powerup lands in the snake coordinates restart generate food
+        if(runeX === snake[i].x||runeX===mouseX){
             spawnRune();
-        }else if (runeY === snake[i].y){
+        }else if (runeY === snake[i].y||runeY===mouseY){
             spawnRune();
         }
     }
 }
+
+var gameOver = function(){
+       var gameOverBox = document.createElement('div');
+       gameOverBox.setAttribute("class", "endgame-lose");
+       gameOverBox.innerHTML = "<br><br><br>Game Over!<br> Your Score is " +score +"<br> Click to restart!";
+       document.body.appendChild(gameOverBox);
+       document.querySelector('.endgame-lose').addEventListener("click", function(){
+           document.location.reload();
+       });
+   }
 
 //draw the powerup at rune coordinates
 var drawRune = function(){
@@ -223,16 +272,29 @@ else if(snake[0].x===0&&dx===-30||snake[0].x===570&&dx===30||snake[0].y===0&&dy=
     }
 }
 
-
-
-
-//Movement
+var tickRune = function(){
+    seconds = 10;
+ticker = setInterval(function(){
+        powerlog.innerHTML = "Power Up!<br>Time slowdown<br>"+ seconds +"s left";
+        seconds--;
+        if(seconds ===-1){clearInterval(ticker);
+            powerlog.innerHTML = "";
+        }
+},1000);
+setTimeout(function(){
+            clearInterval(interval);
+            speed = 130;
+            movement();
+        }, 11000);
+};
 
 var movement = function(){
     interval = setInterval(function(){
         changingDirection = false;
         if(endGame() === true){
             document.removeEventListener("keydown", changeDirection);
+            gameOver();
+            clearInterval(interval);
             return;
         }
         clearCanvas();
@@ -244,9 +306,9 @@ var movement = function(){
 
 }
 
+
+//Movement
 generateFood();
 movement();
-
-
 document.addEventListener("keydown", changeDirection);
 
