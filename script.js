@@ -53,12 +53,12 @@ var scoreLog= document.querySelector("h1");
 // var powerlog = document.querySelector("h2")
 
 //coordinates of the food
-var mouseX = 0;
-var mouseY = 0;
+var foodX = 0;
+var foodY = 0;
 
 //coordinates of the power-up
-var runeX = -100;
-var runeY = -100;
+var powerUpX = -100;
+var powerUpY = -100;
 
 //speed of the game(timeout)
 var speed = 130;
@@ -79,7 +79,6 @@ var head = {
 
 //Functions
 var clearCanvas = function(){
-
     context.lineWidth = 3;
     context.clearRect(0,0, gameCanvas.width, gameCanvas.height);
     context.drawImage(img, gameCanvas.width, gameCanvas.height);
@@ -143,23 +142,23 @@ var moveSnake = function(){
         x: snake[0].x + dx, y: snake[0].y + dy
     };
     snake.unshift(head);
-    if(head.x==runeX&&head.y == runeY){
+    if(head.x==powerUpX&&head.y == powerUpY){
         var random = Math.random();
         if(random <=0.5){
-            runeX = -100;
-            runeY = -100;
+            powerUpX = -100;
+            powerUpY = -100;
             clearInterval(interval);
             speed = 220;
             movement();
             tickRune();
         }else{
-            runeX = -100;
-            runeY = -100;
+            powerUpX = -100;
+            powerUpY = -100;
             shorten();
         }
     }
 
-    if(head.x==mouseX&&head.y == mouseY){
+    if(head.x==foodX&&head.y == foodY){
         score++;
         scoreLog.innerHTML = "Score: " + score;
         if(score%5===0){
@@ -210,29 +209,29 @@ var changeDirection = function(event) {
 
 var generateFood = function(){
     //generate a food coordinates x and y between 0 and 580 (multiples of 30).
-    mouseX = Math.floor(Math.random()*20)*30;
-    mouseY = Math.floor(Math.random()*20)*30;
+    foodX = Math.floor(Math.random()*20)*30;
+    foodY = Math.floor(Math.random()*20)*30;
     //to ensure that the food does not land in the snake
     for(var i = 0; i < snake.length ;i++){
         //if the coordinates of the food lands in the snake coordinates restart generate food
-        if(mouseX === snake[i].x){
+        if(foodX === snake[i].x){
             generateFood();
-        }else if (mouseY === snake[i].y){
+        }else if (foodY === snake[i].y){
             generateFood();
         }
     }
 }
 
 var spawnRune = function(){
-    //generate a food coordinates x and y between 0 and 580 (multiples of 30).
-    runeX = Math.floor(Math.random()*20)*30;
-    runeY = Math.floor(Math.random()*20)*30;
-    //to ensure that the food does not land in the snake
+    //generate a powerup coordinates x and y between 0 and 580 (multiples of 30).
+    powerUpX = Math.floor(Math.random()*20)*30;
+    powerUpY = Math.floor(Math.random()*20)*30;
+    //to ensure that the powerup does not land in the snake
     for(var i = 0; i < snake.length ;i++){
         //if the coordinates of the powerup lands in the snake coordinates restart generate food
-        if(runeX === snake[i].x||runeX===mouseX){
+        if(powerUpX === snake[i].x||powerUpX===foodX){
             spawnRune();
-        }else if (runeY === snake[i].y||runeY===mouseY){
+        }else if (powerUpY === snake[i].y||powerUpY===foodY){
             spawnRune();
         }
     }
@@ -250,12 +249,12 @@ var gameOver = function(){
 
 //draw the powerup at rune coordinates
 var drawRune = function(){
-    context.drawImage(pokeball, runeX,runeY, 30, 30);
+    context.drawImage(pokeball, powerUpX,powerUpY, 30, 30);
 }
 
 
 var drawMouse = function(){
-    context.drawImage(mouse, mouseX, mouseY, 34, 34);
+    context.drawImage(mouse, foodX, foodY, 34, 34);
 }
 
 //check for endgame condition
