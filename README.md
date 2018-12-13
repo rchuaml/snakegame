@@ -1,6 +1,8 @@
 #snakegame
 
-Steps for my base game 1.) I used Canvas for HTML to do this snake program
+Steps for my base game 
+
+1.) I used Canvas for HTML to do this snake program
 
 2.) I built a 600 x 600 canvas for the borders of the game
 
