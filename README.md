@@ -1,6 +1,6 @@
-#snakegame
+# snakegame
 
-Steps for my base game 
+# Steps for my base game 
 
 1.) I used Canvas for HTML to do this snake program
 
@@ -20,7 +20,7 @@ Steps for my base game
 
 9.) If the game has ended the whole movement sequence will end.
 
-Additional stuff added to the game:
+# Additional stuff added to the game:
 
 End game screen where you can click to restart the game.
 
