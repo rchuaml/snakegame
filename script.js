@@ -47,7 +47,7 @@ var dy = 0;
 var score = 0;
 
 //access score through dom
-var scoreLog= document.querySelector("h1");
+var scoreLog = document.querySelector("h1");
 
 // //access Powerup Through dom
 // var powerlog = document.querySelector("h2")
@@ -66,10 +66,10 @@ var speed = 130;
 // Starting snake coordinates (3 parts)
 var snake = [
     //head (first object in array)
-    {x: 300, y: 300},
-    {x: 270, y: 300},
+    { x: 300, y: 300 },
+    { x: 270, y: 300 },
     //tail (last object in array)
-    {x: 240, y: 300},
+    { x: 240, y: 300 },
 ]
 // Head of snake
 var head = {
@@ -78,96 +78,93 @@ var head = {
 };
 
 //Functions
-var clearCanvas = function(){
+var clearCanvas = function() {
     context.lineWidth = 3;
-    context.clearRect(0,0, gameCanvas.width, gameCanvas.height);
+    context.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
     context.drawImage(img, gameCanvas.width, gameCanvas.height);
 }
 
 //takes in one set of coordinates for one part of snake and prints it on the board
-var drawSnakePart = function(snakePart){
-    context.fillStyle="rgb(148,67,143)";
+var drawSnakePart = function(snakePart) {
+    context.fillStyle = "rgb(148,67,143)";
     context.fillRect(snakePart.x, snakePart.y, 30, 30);
 
 }
 
 //draws the snake using the previous function and a loop
-var drawSnake = function(){
-    for(var i=0; i<snake.length; i++){
-    drawSnakePart(snake[i]);
+var drawSnake = function() {
+    for (var i = 0; i < snake.length; i++) {
+        drawSnakePart(snake[i]);
     }
-    if(dx===30){
-        context.clearRect(snake[0].x,snake[0].y, snakeHeadSize, snakeHeadSize);
+    if (dx === 30) {
+        context.clearRect(snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
         context.drawImage(snakeRight, snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
-    }else if(dx===-30){
-        context.clearRect(snake[0].x,snake[0].y, snakeHeadSize, snakeHeadSize);
-        context.drawImage(snakeLeft,snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
-    }else if(dy===-30){
-        context.clearRect(snake[0].x,snake[0].y, snakeHeadSize, snakeHeadSize);
-        context.drawImage(snakeUp,snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
-    }else if(dy===30){
-        context.clearRect(snake[0].x,snake[0].y, snakeHeadSize, snakeHeadSize);
-        context.drawImage(snakeDown,snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
+    } else if (dx === -30) {
+        context.clearRect(snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
+        context.drawImage(snakeLeft, snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
+    } else if (dy === -30) {
+        context.clearRect(snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
+        context.drawImage(snakeUp, snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
+    } else if (dy === 30) {
+        context.clearRect(snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
+        context.drawImage(snakeDown, snake[0].x, snake[0].y, snakeHeadSize, snakeHeadSize);
     }
 }
 
-var shorten = function(){
+var shorten = function() {
     var random = Math.random();
-    if(random<0.333){
+    if (random < 0.333) {
         powerlog.innerHTML = "Power Up!<br>Length shorten by 1<br>"
         snake.pop();
-        setTimeout(function(){powerlog.innerHTML = "";}
-            , 3000);
-    }else if(random>0.666){
+        setTimeout(function() { powerlog.innerHTML = ""; }, 3000);
+    } else if (random > 0.666) {
         powerlog.innerHTML = "Power Up!<br>Length shorten by 2<br>"
         snake.pop();
         snake.pop();
-        setTimeout(function(){powerlog.innerHTML = "";}
-            ,3000);
+        setTimeout(function() { powerlog.innerHTML = ""; }, 3000);
 
-    }else{
+    } else {
         powerlog.innerHTML = "Power Up!<br>Length shorten by 3<br>"
         snake.pop();
         snake.pop();
         snake.pop();
-        setTimeout(function(){powerlog.innerHTML = "";}
-            ,3000);
+        setTimeout(function() { powerlog.innerHTML = ""; }, 3000);
 
     }
 }
 
 
-var moveSnake = function(){
+var moveSnake = function() {
     head = {
-        x: snake[0].x + dx, y: snake[0].y + dy
+        x: snake[0].x + dx,
+        y: snake[0].y + dy
     };
     snake.unshift(head);
-    if(head.x==powerUpX&&head.y == powerUpY){
+    if (head.x == powerUpX && head.y == powerUpY) {
         var random = Math.random();
-        if(random <=0.5){
+        if (random <= 0.5) {
             powerUpX = -100;
             powerUpY = -100;
             clearInterval(interval);
             speed = 220;
             movement();
             tickRune();
-        }else{
+        } else {
             powerUpX = -100;
             powerUpY = -100;
             shorten();
         }
     }
 
-    if(head.x==foodX&&head.y == foodY){
+    if (head.x == foodX && head.y == foodY) {
         score++;
         scoreLog.innerHTML = "Score: " + score;
-        if(score%5===0){
+        if (score % 5 === 0) {
             spawnRune();
             drawRune();
         }
-generateFood();
-    }else
-    {
+        generateFood();
+    } else {
         snake.pop();
     }
 }
@@ -177,7 +174,7 @@ var changeDirection = function(event) {
     var RIGHT_KEY = 39;
     var UP_KEY = 38;
     var DOWN_KEY = 40;
-    if(changingDirection == true){
+    if (changingDirection == true) {
         return;
     };
     changingDirection = true;
@@ -188,109 +185,110 @@ var changeDirection = function(event) {
     var goingRight = dx === 30;
     var goingLeft = dx === -30;
 
-//Prevent the snake from reversing
+    //Prevent the snake from reversing
     if (keyPressed === LEFT_KEY && !goingRight) {
-    dx = -30;
-    dy = 0;
+        dx = -30;
+        dy = 0;
     }
     if (keyPressed === UP_KEY && !goingDown) {
-    dx = 0;
-    dy = -30;
+        dx = 0;
+        dy = -30;
     }
     if (keyPressed === RIGHT_KEY && !goingLeft) {
-    dx = 30;
-    dy = 0;
+        dx = 30;
+        dy = 0;
     }
     if (keyPressed === DOWN_KEY && !goingDown) {
-    dx = 0;
-    dy = 30;
+        dx = 0;
+        dy = 30;
     }
 }
 
-var generateFood = function(){
+var generateFood = function() {
     //generate a food coordinates x and y between 0 and 580 (multiples of 30).
-    foodX = Math.floor(Math.random()*20)*30;
-    foodY = Math.floor(Math.random()*20)*30;
+    foodX = Math.floor(Math.random() * 20) * 30;
+    foodY = Math.floor(Math.random() * 20) * 30;
     //to ensure that the food does not land in the snake
-    for(var i = 0; i < snake.length ;i++){
+    for (var i = 0; i < snake.length; i++) {
         //if the coordinates of the food lands in the snake coordinates restart generate food
-        if(foodX === snake[i].x){
+        if (foodX === snake[i].x) {
             generateFood();
-        }else if (foodY === snake[i].y){
+        } else if (foodY === snake[i].y) {
             generateFood();
         }
     }
 }
 
-var spawnRune = function(){
+var spawnRune = function() {
     //generate a powerup coordinates x and y between 0 and 580 (multiples of 30).
-    powerUpX = Math.floor(Math.random()*20)*30;
-    powerUpY = Math.floor(Math.random()*20)*30;
+    powerUpX = Math.floor(Math.random() * 20) * 30;
+    powerUpY = Math.floor(Math.random() * 20) * 30;
     //to ensure that the powerup does not land in the snake
-    for(var i = 0; i < snake.length ;i++){
+    for (var i = 0; i < snake.length; i++) {
         //if the coordinates of the powerup lands in the snake coordinates restart generate food
-        if(powerUpX === snake[i].x||powerUpX===foodX){
+        if (powerUpX === snake[i].x || powerUpX === foodX) {
             spawnRune();
-        }else if (powerUpY === snake[i].y||powerUpY===foodY){
+        } else if (powerUpY === snake[i].y || powerUpY === foodY) {
             spawnRune();
         }
     }
 }
 
-var gameOver = function(){
-       var gameOverBox = document.createElement('div');
-       gameOverBox.setAttribute("class", "endgame-lose");
-       gameOverBox.innerHTML = "<br><br><br>Game Over!<br> Your Score is " +score +"<br> Click to restart!";
-       document.body.appendChild(gameOverBox);
-       document.querySelector('.endgame-lose').addEventListener("click", function(){
-           document.location.reload();
-       });
-   }
+var gameOver = function() {
+    var gameOverBox = document.createElement('div');
+    gameOverBox.setAttribute("class", "endgame-lose");
+    gameOverBox.innerHTML = "<br><br><br>Game Over!<br> Your Score is " + score + "<br> Click to restart!";
+    document.body.appendChild(gameOverBox);
+    document.querySelector('.endgame-lose').addEventListener("click", function() {
+        document.location.reload();
+    });
+}
 
 //draw the powerup at rune coordinates
-var drawRune = function(){
-    context.drawImage(pokeball, powerUpX,powerUpY, 30, 30);
+var drawRune = function() {
+    context.drawImage(pokeball, powerUpX, powerUpY, 30, 30);
 }
 
 
-var drawMouse = function(){
+var drawMouse = function() {
     context.drawImage(mouse, foodX, foodY, 34, 34);
 }
 
 //check for endgame condition
-var endGame = function(){
+var endGame = function() {
     //check if snake collide with itself
-for(i=1;i<snake.length; i++){
-if(head.x===snake[i].x&&head.y===snake[i].y){
-        return true;
-                }
-    //check if snake collide on wall
-else if(snake[0].x===0&&dx===-30||snake[0].x===570&&dx===30||snake[0].y===0&&dy===-30||snake[0].y===570&&dy===30){
+    for (i = 1; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+            return true;
+        }
+        //check if snake collide on wall
+        else if (snake[0].x === 0 && dx === -30 || snake[0].x === 570 && dx === 30 || snake[0].y === 0 && dy === -30 || snake[0].y === 570 && dy === 30) {
             return true;
         }
     }
 }
 
-var tickRune = function(){
+var tickRune = function() {
     seconds = 10;
-ticker = setInterval(function(){
-        powerlog.innerHTML = "Power Up!<br>Time slowdown<br>"+ seconds +"s left";
+    ticker = setInterval(function() {
+        powerlog.innerHTML = "Power Up!<br>Time slowdown<br>" + seconds + "s left";
         seconds--;
-        if(seconds ===-1){clearInterval(ticker);
+        if (seconds === -1) {
+            clearInterval(ticker);
             powerlog.innerHTML = "";
         }
-},1000);
-setTimeout(function(){
-            clearInterval(interval);
-            speed = 130;
-            movement();
-        }, 11000);
+    }, 1000);
+    setTimeout(function() {
+        clearInterval(interval);
+        speed = 130;
+        movement();
+    }, 11000);
 };
 
-var movement = function(){
-    interval = setInterval(function(){
+var movement = function() {
+    interval = setInterval(function() {
         changingDirection = false;
-        if(endGame() === true){
+        if (endGame() === true) {
             document.removeEventListener("keydown", changeDirection);
             gameOver();
             clearInterval(interval);
@@ -308,7 +306,7 @@ var movement = function(){
 
 //Movement
 
-window.onload = function(){
+window.onload = function() {
     generateFood();
     movement();
     document.addEventListener("keydown", changeDirection);
