@@ -28,6 +28,11 @@ h1{
 	color:red;
 }
 
+.score{
+	position:fixed;
+	left:650px;
+}
+
 h2{
 	font-size: 25px;
 	color:white;
