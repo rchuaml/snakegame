@@ -57,3 +57,7 @@ h2{
   text-align:center;
   font-weight:bold;
 }
+
+body.noScroll { /* ...or body.dialogShowing */
+  overflow: hidden;
+}
