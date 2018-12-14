@@ -12,11 +12,14 @@ canvas{
 	border: 10px solid red;
 	display:block;
 	margin: 0 auto;
+	position:fixed;
 		no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+    top: 100px;
+  right: 410px;
 }
 
 h1{
@@ -41,12 +44,11 @@ h2{
 	color:red;
 	font-size: 40px;
 	text-align:middle;
-	position:absolute;
+	position:fixed;
 	width:620px;
 	height:620px;
   top: 100px;
   right: 410px;
-  margin: 0 auto;
   text-align:center;
   font-weight:bold;
 }
