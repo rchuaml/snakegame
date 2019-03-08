@@ -1,4 +1,4 @@
-#snakegame
+# snakegame
 
 ## Hosted on github pages
 https://rchuaml.github.io/snakegame/
