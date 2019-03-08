@@ -1,5 +1,9 @@
 # snakegame
 
+## Instructions
+
+Use Arrow Key Up Down Left Right to move the snake, Collect as many points as possible. Every 5 score will generate a random powerUp(slow time or shorten snake)
+
 ## Hosted on github pages
 https://rchuaml.github.io/snakegame/
 
